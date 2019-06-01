@@ -9,7 +9,6 @@ const chatId = "-341485739";
 const port = process.env.PORT || 8080
 
 app.use(express.json());
-app.use(mtg);
 
 app.listen(port, function() {
   console.log('Our app is running on http://localhost:' + port);
