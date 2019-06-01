@@ -89,11 +89,8 @@ bot.onText(/\/cat/, function(msg, match) {
 
 })
 
-bot.onText(/\/trump (.+)/, function(msg, match){
-  console.log(msg)
+bot.onText(/\/trump/, function(msg, match){
   const chatId = msg.chat.id;
-  const trumpInput = match[1];
-  console.log(match)
 
   axios
     .get('https://api.whatdoestrumpthink.com/api/v1/quotes/random')
