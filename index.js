@@ -5,6 +5,7 @@ const token = "847053296:AAH9MP8G6vw7IW6r5jg6HAggcvllRM9I1i8";
 const bot = new TelegramBot(token, {polling: true});
 const mtg = require('mtgsdk');
 const request = require('request');
+const axios = require('axios');
 
 const port = process.env.PORT || 8080
 
@@ -72,4 +73,18 @@ bot.onText(/\/movie (.+)/, function(msg, match) {
             })
         }
       });
+})
+
+bot.onText(/\/cat/, function(msg, match) {
+  const chatId = msg.chat.id;
+
+  axios
+    .get('https://catfact.ninja/fact')
+    .then(res => {
+      bot.sendMessage(chatId, res.data.fact);
+    })
+    .catch(err => {
+      console.log(err);
+    })
+
 })
