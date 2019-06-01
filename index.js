@@ -43,9 +43,10 @@ bot.onText(/\/mtg (.+)/, function(msg, match){
       const uniqueSet = new Set(messageCards); // removes duplicates
       const uniqueArray = [...uniqueSet]; // back to array
       const finalArray = uniqueArray.join(", "); // joins array into string
-      const finalMessage = `${result[0].imageUrl}\n${finalArray}` // final message text
-      console.log(finalMessage);
-      bot.sendMessage(chatId, finalMessage)
+      const finalMessage = `${result[0].imageUrl}\n${finalArray}`; // final message text
+      const firstCardPic = result[0].imageUrl;
+      // console.log(finalMessage);
+      bot.sendPhoto(chatId, firstCardPic, {caption: `Also see: ${finalArray}`})
     })
     // .then(result => {
     //   // console.log(result)
