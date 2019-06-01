@@ -50,7 +50,6 @@ bot.onText(/\/mtg (.+)/, function(msg, match){
       if(!result[0].imageUrl) {
         bot.sendMessage(chatId, finalArray);
       } else {
-        const removeFirstElement = finalArray.shift();
         const firstCardPic = result[0].imageUrl;
         bot.sendPhoto(chatId, firstCardPic, {caption: `Also see: ${finalArray}`});
       }
