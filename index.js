@@ -47,6 +47,7 @@ bot.onText(/\/mtg (.+)/, function(msg, match){
       const firstCardPic = result[0].imageUrl;
       // console.log(finalMessage);
       console.log(firstCardPic);
+      console.log(uniqueSet);
       bot.sendPhoto(chatId, firstCardPic, {caption: `Also see: ${finalArray}`})
     })
     // .then(result => {
