@@ -45,7 +45,6 @@ bot.onText(/\/mtg (.+)/, function(msg, match){
       const finalArray = uniqueArray.join(", "); // joins array into string
       const finalMessage = `${result[0].imageUrl}\n${finalArray}`; // final message text
       // console.log(finalMessage);
-      console.log(firstCardPic);
       console.log(uniqueSet);
       console.log(result[0]);
       if(!result[0].imageUrl) {
