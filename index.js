@@ -49,7 +49,12 @@ bot.onText(/\/mtg (.+)/, function(msg, match){
       console.log(firstCardPic);
       console.log(uniqueSet);
       console.log(result[0]);
-      bot.sendPhoto(chatId, firstCardPic, {caption: `Also see: ${finalArray}`})
+      if(!finalPic) {
+        bot.sendMessage(chatId, finalArray);
+      } else {
+        finalArray.shift();
+        bot.sendPhoto(chatId, firstCardPic, {caption: `Also see: ${finalArray}`});
+      }
     })
     // .then(result => {
     //   // console.log(result)
