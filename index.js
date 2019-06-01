@@ -4,7 +4,7 @@ const TelegramBot = require('node-telegram-bot-api');
 const token = "847053296:AAH9MP8G6vw7IW6r5jg6HAggcvllRM9I1i8";
 const bot = new TelegramBot(token, {polling: true});
 const mtg = require('mtgsdk');
-cont request = require('request');
+const request = require('request');
 
 const port = process.env.PORT || 8080
 
