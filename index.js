@@ -88,3 +88,26 @@ bot.onText(/\/cat/, function(msg, match) {
     })
 
 })
+
+bot.onText(/\/trump (.+)/, function(msg, match){
+  console.log(msg)
+  const chatId = msg.chat.id;
+  const trumpInput = match[1];
+  console.log(match)
+
+  if(trumpInput === 'q') {
+    axios
+      .get('https://api.tronalddump.io/random/quote')
+      .then( res => {
+        console.log(res);
+      })
+  } else if(trumpInput === 'm') {
+      axios
+        .get('https://api.tronalddump.io/random/meme')
+        .then(res => {
+          console.log(res);
+        })
+  } else {
+    bot.sendMessage(chatId, 'Use q for a quote and m for a meme.')
+  }
+})
