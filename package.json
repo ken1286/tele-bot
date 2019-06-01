@@ -1,0 +1,21 @@
+{
+  "name": "shargalbot",
+  "version": "1.0.0",
+  "description": "test",
+  "main": "Shargalbot.js",
+  "dependencies": {
+    "mtgsdk": "^0.4.3",
+    "node-telegram-bot-api": "^0.30.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "ken",
+  "license": "ISC"
+}
