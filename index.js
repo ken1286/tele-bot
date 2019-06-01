@@ -34,11 +34,11 @@ bot.onText(/\/mtg (.+)/, function(msg, match){
   mtg.card
     .where( {name: cardName} )
     .then(result => {
-      console.log(result)
+      // console.log(result)
       const messageCards = result.map(card => {
           return card.name
       })
-      console.log(messageCards)
+      // console.log(messageCards)
       const uniqueSet = new Set(messageCards); // removes duplicates
       const uniqueArray = [...uniqueSet]; // back to array
       const finalArray = uniqueArray.join(", "); // joins array into string
@@ -61,12 +61,14 @@ bot.onText(/\/movie (.+)/, function(msg, match) {
   const movie = match[1];
   const chatId = msg.chat.id;
   request(`http://www.omdbapi.com/?i=tt3896198&apikey=110b029a&t=${movie}`, function(error, response, body) {
+        console.log(body)
         if(!error && response.statusCode == 200) {
           bot.sendMessage(chatId, '_Looking for _' + movie + '...', {parse_mode:'Markdown'})
             .then(function(msg) {
               const res = JSON.parse(body);
+              console.log(res);
               // bot.sendMessage(chatId, 'Result: \nTitle ' + res.Title + '\nYear: ' + res.Year + '\nRated: ' + res.Rated + '\nReleased: ' + res.Released );
-              bot.sendPhoto(chatId, res.Poster, {caption: '\nTitle ' + res.Title + '\nYear: ' + res.Year + '\nRated: ' + res.Rated + '\nReleased: ' + res.Released})
+              bot.sendPhoto(chatId, res.Poster, {caption: '\nTitle: ' + res.Title + '\nYear: ' + res.Year + '\nRated: ' + res.Rated + '\nReleased: ' + res.Released})
             })
         }
       });
