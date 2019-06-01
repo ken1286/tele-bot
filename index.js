@@ -44,15 +44,15 @@ bot.onText(/\/mtg (.+)/, function(msg, match){
       const uniqueArray = [...uniqueSet]; // back to array
       const finalArray = uniqueArray.join(", "); // joins array into string
       const finalMessage = `${result[0].imageUrl}\n${finalArray}`; // final message text
-      const firstCardPic = result[0].imageUrl;
       // console.log(finalMessage);
       console.log(firstCardPic);
       console.log(uniqueSet);
       console.log(result[0]);
-      if(!finalPic) {
+      if(!result[0].imageUrl) {
         bot.sendMessage(chatId, finalArray);
       } else {
         finalArray.shift();
+        const firstCardPic = result[0].imageUrl;
         bot.sendPhoto(chatId, firstCardPic, {caption: `Also see: ${finalArray}`});
       }
     })
