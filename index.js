@@ -97,19 +97,21 @@ bot.onText(/\/trump (.+)/, function(msg, match){
 
   if(trumpInput === 'q') {
     axios
-      .get('https://api.tronalddump.io/random/quote')
+      .get('https://api.whatdoestrumpthink.com/api/v1/quotes/random')
       .then( res => {
         console.log(res);
-        bot.sendMessage(chatId, res.data.value);
+        bot.sendMessage(chatId, res.message);
       })
-  } else if(trumpInput === 'm') {
-      // axios
-      //   .get('https://api.tronalddump.io/random/meme')
-      //   .then(res => {
-      //     console.log(res);
-      bot.sendPhoto(chatId, 'https://api.tronalddump.io/random/meme');
-      // })
-  } else {
+   } 
+  // else if(trumpInput === 'm') {
+  //     // axios
+  //     //   .get('https://api.tronalddump.io/random/meme')
+  //     //   .then(res => {
+  //     //     console.log(res);
+  //     bot.sendPhoto(chatId, 'https://api.tronalddump.io/random/meme');
+  //     // })
+  // }
+  else {
     bot.sendMessage(chatId, 'Use q for a quote and m for a meme.')
   }
 })
