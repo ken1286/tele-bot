@@ -106,6 +106,7 @@ bot.onText(/\/trump (.+)/, function(msg, match){
       axios
         .get('https://api.tronalddump.io/random/meme')
         .then(res => {
+          console.log(res.data);
           bot.sendPhoto(chatId, res.data);
         })
   } else {
