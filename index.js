@@ -103,12 +103,12 @@ bot.onText(/\/trump (.+)/, function(msg, match){
         bot.sendMessage(chatId, res.data.value);
       })
   } else if(trumpInput === 'm') {
-      axios
-        .get('https://api.tronalddump.io/random/meme')
-        .then(res => {
-          console.log(res);
-          bot.sendPhoto(chatId, res.data);
-        })
+      // axios
+      //   .get('https://api.tronalddump.io/random/meme')
+      //   .then(res => {
+      //     console.log(res);
+      bot.sendPhoto(chatId, 'https://api.tronalddump.io/random/meme');
+      // })
   } else {
     bot.sendMessage(chatId, 'Use q for a quote and m for a meme.')
   }
