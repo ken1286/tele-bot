@@ -62,6 +62,7 @@ bot.onText(/\/mtg (.+)/, function(msg, match){
     //   bot.sendMessage(chatId, card)
     // })
     .catch(err => {
+      console.log(err);
       bot.sendMessage(chatId, 'No such card found');
     })
 });
