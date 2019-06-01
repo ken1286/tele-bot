@@ -4,7 +4,7 @@ const TelegramBot = require('node-telegram-bot-api');
 const token = "847053296:AAH9MP8G6vw7IW6r5jg6HAggcvllRM9I1i8";
 const bot = new TelegramBot(token, {polling: true});
 const mtg = require('mtgsdk');
-const chatId = "-341485739";
+cont request = require('request');
 
 const port = process.env.PORT || 8080
 
@@ -52,7 +52,22 @@ bot.onText(/\/mtg (.+)/, function(msg, match){
     //   bot.sendMessage(chatId, card)
     // })
     .catch(err => {
-      bot.sendMessage(chatId, 'No such card found')
+      bot.sendMessage(chatId, 'No such card found');
     })
 });
 
+
+bot.onText(/\/movie (.+)/, function(msg, match) {
+  const movie = match[1];
+  const chatId = msg.chat.id;
+  request(`http://www.omdbapi.com/?i=tt3896198&apikey=110b029a&t=${movie}`, function(error, response, body) {
+        if(!error && response.statusCode == 200) {
+          bot.sendMessage(chatId, '_Looking for _' + movie + '...', {parse_mode:'Markdown'})
+            .then(function(msg) {
+              const res = JSON.parse(body);
+              // bot.sendMessage(chatId, 'Result: \nTitle ' + res.Title + '\nYear: ' + res.Year + '\nRated: ' + res.Rated + '\nReleased: ' + res.Released );
+              bot.sendPhoto(chatId, res.Poster, {caption: '\nTitle ' + res.Title + '\nYear: ' + res.Year + '\nRated: ' + res.Rated + '\nReleased: ' + res.Released})
+            })
+        }
+      });
+})
