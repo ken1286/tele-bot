@@ -6,6 +6,7 @@ const bot = new TelegramBot(token, {polling: true});
 const mtg = require('mtgsdk');
 const request = require('request');
 const axios = require('axios');
+const tweetData = require('./tweetData.js');
 
 const port = process.env.PORT || 8080
 
@@ -99,14 +100,19 @@ bot.onText(/\/cat/, function(msg, match) {
 
 bot.onText(/\/trump/, function(msg, match){
   const chatId = msg.chat.id;
+  console.log(tweetData[1]);
 
-  axios
-    .get('https://api.whatdoestrumpthink.com/api/v1/quotes/random')
-    .then( res => {
-      console.log(res);
-      bot.sendMessage(chatId, res.data.message);
-    })
-    .catch(err => {
-      console.log(err);
-    })
+
+  var tweet = tweetData[Math.floor(Math.random()*tweetData.length)];
+
+  bot.sendMessage(chatId, tweet.text);
+  // axios
+  //   .get('https://api.whatdoestrumpthink.com/api/v1/quotes/random')
+  //   .then( res => {
+  //     console.log(res);
+  //     bot.sendMessage(chatId, res.data.message);
+  //   })
+  //   .catch(err => {
+  //     console.log(err);
+  //   })
 })
