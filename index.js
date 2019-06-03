@@ -123,7 +123,10 @@ bot.onText(/\/today/, function(msg, match){
 
   axios.get('https://history.muffinlabs.com/date')
   .then( res => {
-    console.log(res.data);
+    // res.data.date
+    // res.data.url
+    // res.data..data.events/births/deaths
+    console.log(res.data.data.events);
   })
   .catch( err => {
     console.log(err);
