@@ -7,6 +7,7 @@ const mtg = require('mtgsdk');
 const request = require('request');
 const axios = require('axios');
 const tweetData = require('./tweetData.js');
+const steam = 'D1D682C581C091D5834EBEA30245480D';
 
 const port = process.env.PORT || 8080
 
@@ -135,4 +136,20 @@ bot.onText(/\/today/, function(msg, match){
     console.log(err);
   })
 
+})
+
+bot.onText(/\/steam (.+)/, function(msg, match){
+  console.log(msg)
+  // console.log(match)
+  const chatId = msg.chat.id;
+  const user = match[1];
+  axios
+    .get(`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${steam}&steamid=${user}&format=json`)
+    .then( res => {
+      const gamesArray = res.data.games.map( game => {
+        return game.name;
+      })
+      const gamesList = gamesArray.join(", ");
+      bot.sendMessage(chatId, `${gamesList}, a total of ${res.data.game_count} games`)
+    })
 })
