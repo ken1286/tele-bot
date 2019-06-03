@@ -125,8 +125,11 @@ bot.onText(/\/today/, function(msg, match){
   .then( res => {
     // res.data.date
     // res.data.url
-    // res.data..data.events/births/deaths
-    console.log(res.data.data.events);
+    // res.data.data.events/births/deaths
+    // console.log(res.data.data.Events);
+    const Events = res.data.data.Events;
+    const randomEvent = Events[Math.floor(Math.random()*Events.length)];
+    bot.sendMessage(chatId, `On this date in ${randomEvent.year}: ${randomEvent.text}`)
   })
   .catch( err => {
     console.log(err);
