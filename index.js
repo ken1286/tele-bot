@@ -151,7 +151,7 @@ bot.onText(/\/steam (.+)/, function(msg, match){
         return game.name;
       })
       const gamesList = gamesArray.join(", ");
-      bot.sendMessage(chatId, `${gamesList}, a total of ${res.data.response.game_count} games`)
+      bot.sendMessage(chatId, `User owns a total of ${res.data.response.game_count} games on Steam.`)
     })
     .catch(err => {
       console.log(err);
