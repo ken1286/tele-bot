@@ -8,6 +8,7 @@ const request = require('request');
 const axios = require('axios');
 const tweetData = require('./tweetData.js');
 const steam = 'D1D682C581C091D5834EBEA30245480D';
+const d20 = require('d20');
 
 const port = process.env.PORT || 8080
 
@@ -19,7 +20,12 @@ app.listen(port, function() {
 
 bot.onText(/\/echo (.+)/, function(msg, match){
   console.log(msg)
-  // console.log(match)
+  console.log(match)
+  console.log(match[1]);
+  const newArray = match[1].split(' '); // split string into array by spaces
+  console.log(newArray);
+  const finalString = newArray.join(''); // join array into string no spaces
+  console.log(finalString);
   const chatId = msg.chat.id;
   const echo = match[1];
   if(msg.from.id === 290994421) {
@@ -156,4 +162,26 @@ bot.onText(/\/steam (.+)/, function(msg, match){
     .catch(err => {
       console.log(err);
     })
+})
+
+bot.onText(/\/roll (.+)/, function(msg, match){
+  // console.log(msg)
+  // console.log(match)
+  const chatId = msg.chat.id;
+  // const newArray = match[1].split(' '); // split string into array by spaces
+  // console.log(newArray);
+  // const finalString = newArray.join(''); // join array into string no spaces
+  // console.log(finalString);
+  const rollDice = match[1];
+  // console.log(rollDice);
+  // const result = d20.roll(rollDice);
+  // console.log(result);
+
+  try {
+    const result = d20.roll(rollDice);
+    bot.sendMessage(chatId, result);
+  }
+  catch {
+    bot.sendMessage(chatId, 'Try again.')
+  }
 })
