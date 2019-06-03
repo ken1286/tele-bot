@@ -147,11 +147,11 @@ bot.onText(/\/steam (.+)/, function(msg, match){
     .get(`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${steam}&steamid=${user}&include_appinfo=1&format=json`)
     .then( res => {
       console.log(res.data);
-      const gamesArray = res.data.games.map( game => {
+      const gamesArray = res.data.response.games.map( game => {
         return game.name;
       })
       const gamesList = gamesArray.join(", ");
-      bot.sendMessage(chatId, `${gamesList}, a total of ${res.data.game_count} games`)
+      bot.sendMessage(chatId, `${gamesList}, a total of ${res.data.response.game_count} games`)
     })
     .catch(err => {
       console.log(err);
