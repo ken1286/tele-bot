@@ -144,7 +144,7 @@ bot.onText(/\/steam (.+)/, function(msg, match){
   const chatId = msg.chat.id;
   const user = match[1];
   axios
-    .get(`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${steam}&steamid=${user}&format=json`)
+    .get(`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${steam}&steamid=${user}`)
     .then( res => {
       const gamesArray = res.data.games.map( game => {
         return game.name;
