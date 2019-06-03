@@ -116,3 +116,17 @@ bot.onText(/\/trump/, function(msg, match){
   //     console.log(err);
   //   })
 })
+
+bot.onText(/\/today/, function(msg, match){
+  const chatId = msg.chat.id;
+
+
+  axios.get('https://history.muffinlabs.com/date')
+  .then( res => {
+    console.log(res.data);
+  })
+  .catch( err => {
+    console.log(err);
+  })
+
+})
