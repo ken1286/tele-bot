@@ -9,6 +9,7 @@ const axios = require('axios');
 const tweetData = require('./tweetData.js');
 const steam = 'D1D682C581C091D5834EBEA30245480D';
 const d20 = require('d20');
+const droll = require('droll');
 
 const port = process.env.PORT || 8080
 
@@ -167,21 +168,24 @@ bot.onText(/\/steam (.+)/, function(msg, match){
 bot.onText(/\/roll (.+)/, function(msg, match){
   // console.log(msg)
   // console.log(match)
+  console.log(msg)
   const chatId = msg.chat.id;
+  const user = msg.from.first_name;
+  console.log(user);
   // const newArray = match[1].split(' '); // split string into array by spaces
   // console.log(newArray);
   // const finalString = newArray.join(''); // join array into string no spaces
   // console.log(finalString);
+  console.log(match[1]);
   const rollDice = match[1];
+  console.log(rollDice);
   // console.log(rollDice);
   // const result = d20.roll(rollDice);
   // console.log(result);
-
-  try {
-    const result = d20.roll(rollDice);
-    bot.sendMessage(chatId, result);
-  }
-  catch {
-    bot.sendMessage(chatId, 'Try again.')
-  }
+  const result = droll.roll(rollDice).toString();
+  console.log(result);
+  // console.log(`${user} rolled ${result.DrollResult.numDice} ${result.DrollResult.numSides}-sided dice with a modifier of +${result.DrollResult.modifier}. They rolled ${result.DrollResult.toString()}`)
+  // const resultString = result.DrollResult.toString();
+  console.log(result);
+  bot.sendMessage(chatId, result);
 })
