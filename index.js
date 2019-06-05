@@ -7,7 +7,7 @@ const mtg = require('mtgsdk');
 const request = require('request');
 const axios = require('axios');
 const tweetData = require('./tweetData.js');
-const steam = 'D1D682C581C091D5834EBEA30245480D';
+// const steam = 'D1D682C581C091D5834EBEA30245480D';
 const droll = require('droll');
 
 const port = process.env.PORT || 8080
@@ -144,25 +144,25 @@ bot.onText(/\/today/, function(msg, match){
 
 })
 
-bot.onText(/\/steam (.+)/, function(msg, match){
-  console.log(msg)
-  // console.log(match)
-  const chatId = msg.chat.id;
-  const user = match[1];
-  axios
-    .get(`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${steam}&steamid=${user}&include_appinfo=1&format=json`)
-    .then( res => {
-      console.log(res.data);
-      const gamesArray = res.data.response.games.map( game => {
-        return game.name;
-      })
-      const gamesList = gamesArray.join(", ");
-      bot.sendMessage(chatId, `User owns a total of ${res.data.response.game_count} games on Steam.`)
-    })
-    .catch(err => {
-      console.log(err);
-    })
-})
+// bot.onText(/\/steam (.+)/, function(msg, match){
+//   console.log(msg)
+//   // console.log(match)
+//   const chatId = msg.chat.id;
+//   const user = match[1];
+//   axios
+//     .get(`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${steam}&steamid=${user}&include_appinfo=1&format=json`)
+//     .then( res => {
+//       console.log(res.data);
+//       const gamesArray = res.data.response.games.map( game => {
+//         return game.name;
+//       })
+//       const gamesList = gamesArray.join(", ");
+//       bot.sendMessage(chatId, `User owns a total of ${res.data.response.game_count} games on Steam.`)
+//     })
+//     .catch(err => {
+//       console.log(err);
+//     })
+// })
 
 bot.onText(/\/roll (.+)/, function(msg, match){
   // console.log(msg)
@@ -224,6 +224,28 @@ bot.onText(/\/dnd (.+)/, function(msg, match){
         bot.sendMessage(chatId, finalQuery);
       })
       .catch(err => {
+        console.log(err);
+      })
+  } else if(dndQuery === 'monster') {
+    const chosenMonster = matchArray[1];
+    const dndQueryProperty = matchArray[2];
+    axios
+      .get(`https://api.open5e.com/monsters/`)
+      .then(res => {
+        const finalMonster = res.data.results.filter(monster => {
+          if(monster.name.toLowerCase() === chosenMonster) {
+            return true;
+          } else {
+            return false;
+          }
+        })
+        return finalMonster;
+      })
+      .then( finalMonster => {
+        const finalQuery = finalMonster[dndQueryProperty];
+        bot.sendMessage(chatId, finalQuery);
+      })
+      .catch( err => {
         console.log(err);
       })
   }
