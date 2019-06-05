@@ -218,7 +218,7 @@ bot.onText(/\/dnd (.+)/, function(msg, match){
         return finalClass[0];
       })
       .then( finalClass => {
-        // console.log(finalClass);
+        console.log(finalClass);
         const finalQuery = finalClass[dndQueryProperty];
         console.log(finalQuery);
         bot.sendMessage(chatId, finalQuery);
@@ -242,7 +242,8 @@ bot.onText(/\/dnd (.+)/, function(msg, match){
         return finalMonster;
       })
       .then( finalMonster => {
-        const finalQuery = finalMonster[dndQueryProperty];
+        console.log(finalMonster);
+        const finalQuery = finalMonster[0][dndQueryProperty];
         bot.sendMessage(chatId, finalQuery);
       })
       .catch( err => {
