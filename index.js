@@ -8,7 +8,6 @@ const request = require('request');
 const axios = require('axios');
 const tweetData = require('./tweetData.js');
 const steam = 'D1D682C581C091D5834EBEA30245480D';
-const d20 = require('d20');
 const droll = require('droll');
 
 const port = process.env.PORT || 8080
@@ -188,4 +187,44 @@ bot.onText(/\/roll (.+)/, function(msg, match){
   // const resultString = result.DrollResult.toString();
   console.log(result);
   bot.sendMessage(chatId, result);
+})
+
+bot.onText(/\/dnd (.+)/, function(msg, match){
+  console.log(msg)
+  console.log(match[1]);
+  const matchArray = match[1].split(' '); // split string into array by spaces
+  console.log(matchArray);
+
+  // const finalString = newArray.join(''); // join array into string no spaces
+  // console.log(finalString);
+
+  const chatId = msg.chat.id;
+  const dndQuery = matchArray[0];
+  
+  if(dndQuery === 'class') {
+    const chosenClass = matchArray[1];
+    const dndQueryProperty = matchArray[2];
+    axios
+      .get(`https://api-beta.open5e.com/classes/`)
+      .then(res => {
+        // console.log(res.data.results);
+        const finalClass = res.data.results.filter(dndclass => {
+          if(dndclass.name.toLowerCase() === chosenClass) {
+            return true;
+          } else {
+            return false;
+          }
+        })
+        return finalClass[0];
+      })
+      .then( finalClass => {
+        // console.log(finalClass);
+        const finalQuery = finalClass[dndQueryProperty];
+        console.log(finalQuery);
+        bot.sendMessage(chatId, finalQuery);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
 })

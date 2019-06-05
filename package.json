@@ -5,7 +5,6 @@
   "main": "Shargalbot.js",
   "dependencies": {
     "axios": "^0.19.0",
-    "d20": "^1.4.1",
     "droll": "^0.2.1",
     "express": "^4.17.1",
     "mtgsdk": "^0.4.3",
