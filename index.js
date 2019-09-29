@@ -270,5 +270,5 @@ bot.onText(/\/dnd (.+)/, function(msg, match) {
 });
 
 setInterval(() => {
-  bot.sendMessage(chatId, "Impeach.");
-}, 1000 * 60 * 30);
+  bot.sendMessage(-341485739, "Impeach.");
+}, 1000 * 60 * 60);
