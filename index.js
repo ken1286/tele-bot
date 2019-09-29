@@ -1,52 +1,52 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const TelegramBot = require('node-telegram-bot-api');
+const TelegramBot = require("node-telegram-bot-api");
 const token = "847053296:AAH9MP8G6vw7IW6r5jg6HAggcvllRM9I1i8";
-const bot = new TelegramBot(token, {polling: true});
-const mtg = require('mtgsdk');
-const request = require('request');
-const axios = require('axios');
-const tweetData = require('./tweetData.js');
+const bot = new TelegramBot(token, { polling: true });
+const mtg = require("mtgsdk");
+const request = require("request");
+const axios = require("axios");
+const tweetData = require("./tweetData.js");
 // const steam = 'D1D682C581C091D5834EBEA30245480D';
-const droll = require('droll');
+const droll = require("droll");
 
-const port = process.env.PORT || 8080
+const port = process.env.PORT || 8080;
 
 app.use(express.json());
 
 app.listen(port, function() {
-  console.log('Our app is running on http://localhost:' + port);
+  console.log("Our app is running on http://localhost:" + port);
 });
 
-bot.onText(/\/echo (.+)/, function(msg, match){
-  console.log(msg)
-  console.log(match)
+bot.onText(/\/echo (.+)/, function(msg, match) {
+  console.log(msg);
+  console.log(match);
   console.log(match[1]);
-  const newArray = match[1].split(' '); // split string into array by spaces
+  const newArray = match[1].split(" "); // split string into array by spaces
   console.log(newArray);
-  const finalString = newArray.join(''); // join array into string no spaces
+  const finalString = newArray.join(""); // join array into string no spaces
   console.log(finalString);
   const chatId = msg.chat.id;
   const echo = match[1];
-  if(msg.from.id === 290994421) {
-    bot.sendMessage(chatId, 'die');
+  if (msg.from.id === 290994421) {
+    bot.sendMessage(chatId, "die");
   } else {
     bot.sendMessage(chatId, echo);
   }
-})
+});
 
-bot.onText(/\/mtg (.+)/, function(msg, match){
-  console.log(msg)
+bot.onText(/\/mtg (.+)/, function(msg, match) {
+  console.log(msg);
   const chatId = msg.chat.id;
   const cardName = match[1];
-  console.log(match)
+  console.log(match);
   mtg.card
-    .where( {name: cardName} )
+    .where({ name: cardName })
     .then(result => {
       // console.log(result)
       const messageCards = result.map(card => {
-          return card.name
-      })
+        return card.name;
+      });
       // console.log(messageCards)
       const uniqueSet = new Set(messageCards); // removes duplicates
       const uniqueArray = [...uniqueSet]; // back to array
@@ -55,11 +55,13 @@ bot.onText(/\/mtg (.+)/, function(msg, match){
       // console.log(finalMessage);
       console.log(uniqueSet);
       console.log(result[0]);
-      if(!result[0].imageUrl) {
+      if (!result[0].imageUrl) {
         bot.sendMessage(chatId, finalArray);
       } else {
         const firstCardPic = result[0].imageUrl;
-        bot.sendPhoto(chatId, firstCardPic, {caption: `Also see: ${finalArray}`});
+        bot.sendPhoto(chatId, firstCardPic, {
+          caption: `Also see: ${finalArray}`
+        });
       }
     })
     // .then(result => {
@@ -69,48 +71,61 @@ bot.onText(/\/mtg (.+)/, function(msg, match){
     // })
     .catch(err => {
       console.log(err);
-      bot.sendMessage(chatId, 'No such card found');
-    })
+      bot.sendMessage(chatId, "No such card found");
+    });
 });
-
 
 bot.onText(/\/movie (.+)/, function(msg, match) {
   const movie = match[1];
   const chatId = msg.chat.id;
-  request(`http://www.omdbapi.com/?i=tt3896198&apikey=110b029a&t=${movie}`, function(error, response, body) {
-        console.log(body)
-        if(!error && response.statusCode == 200) {
-          bot.sendMessage(chatId, '_Looking for _' + movie + '...', {parse_mode:'Markdown'})
-            .then(function(msg) {
-              const res = JSON.parse(body);
-              console.log(res);
-              // bot.sendMessage(chatId, 'Result: \nTitle ' + res.Title + '\nYear: ' + res.Year + '\nRated: ' + res.Rated + '\nReleased: ' + res.Released );
-              bot.sendPhoto(chatId, res.Poster, {caption: '\nTitle: ' + res.Title + '\nYear: ' + res.Year + '\nRated: ' + res.Rated + '\nReleased: ' + res.Released})
-            })
-        }
-      });
-})
+  request(
+    `http://www.omdbapi.com/?i=tt3896198&apikey=110b029a&t=${movie}`,
+    function(error, response, body) {
+      console.log(body);
+      if (!error && response.statusCode == 200) {
+        bot
+          .sendMessage(chatId, "_Looking for _" + movie + "...", {
+            parse_mode: "Markdown"
+          })
+          .then(function(msg) {
+            const res = JSON.parse(body);
+            console.log(res);
+            // bot.sendMessage(chatId, 'Result: \nTitle ' + res.Title + '\nYear: ' + res.Year + '\nRated: ' + res.Rated + '\nReleased: ' + res.Released );
+            bot.sendPhoto(chatId, res.Poster, {
+              caption:
+                "\nTitle: " +
+                res.Title +
+                "\nYear: " +
+                res.Year +
+                "\nRated: " +
+                res.Rated +
+                "\nReleased: " +
+                res.Released
+            });
+          });
+      }
+    }
+  );
+});
 
 bot.onText(/\/cat/, function(msg, match) {
   const chatId = msg.chat.id;
 
   axios
-    .get('https://catfact.ninja/fact')
+    .get("https://catfact.ninja/fact")
     .then(res => {
       bot.sendMessage(chatId, res.data.fact);
     })
     .catch(err => {
       console.log(err);
-    })
+    });
+});
 
-})
-
-bot.onText(/\/trump/, function(msg, match){
+bot.onText(/\/trump/, function(msg, match) {
   const chatId = msg.chat.id;
   console.log(tweetData[1]);
 
-
-  var tweet = tweetData[Math.floor(Math.random()*tweetData.length)];
+  var tweet = tweetData[Math.floor(Math.random() * tweetData.length)];
 
   bot.sendMessage(chatId, tweet.text);
   // axios
@@ -122,27 +137,29 @@ bot.onText(/\/trump/, function(msg, match){
   //   .catch(err => {
   //     console.log(err);
   //   })
-})
+});
 
-bot.onText(/\/today/, function(msg, match){
+bot.onText(/\/today/, function(msg, match) {
   const chatId = msg.chat.id;
 
-
-  axios.get('https://history.muffinlabs.com/date')
-  .then( res => {
-    // res.data.date
-    // res.data.url
-    // res.data.data.events/births/deaths
-    // console.log(res.data.data.Events);
-    const Events = res.data.data.Events;
-    const randomEvent = Events[Math.floor(Math.random()*Events.length)];
-    bot.sendMessage(chatId, `On this date in ${randomEvent.year}: ${randomEvent.text}`)
-  })
-  .catch( err => {
-    console.log(err);
-  })
-
-})
+  axios
+    .get("https://history.muffinlabs.com/date")
+    .then(res => {
+      // res.data.date
+      // res.data.url
+      // res.data.data.events/births/deaths
+      // console.log(res.data.data.Events);
+      const Events = res.data.data.Events;
+      const randomEvent = Events[Math.floor(Math.random() * Events.length)];
+      bot.sendMessage(
+        chatId,
+        `On this date in ${randomEvent.year}: ${randomEvent.text}`
+      );
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
 
 // bot.onText(/\/steam (.+)/, function(msg, match){
 //   console.log(msg)
@@ -164,10 +181,10 @@ bot.onText(/\/today/, function(msg, match){
 //     })
 // })
 
-bot.onText(/\/roll (.+)/, function(msg, match){
+bot.onText(/\/roll (.+)/, function(msg, match) {
   // console.log(msg)
   // console.log(match)
-  console.log(msg)
+  console.log(msg);
   const chatId = msg.chat.id;
   const user = msg.from.first_name;
   console.log(user);
@@ -187,12 +204,12 @@ bot.onText(/\/roll (.+)/, function(msg, match){
   // const resultString = result.DrollResult.toString();
   console.log(result);
   bot.sendMessage(chatId, result);
-})
+});
 
-bot.onText(/\/dnd (.+)/, function(msg, match){
-  console.log(msg)
+bot.onText(/\/dnd (.+)/, function(msg, match) {
+  console.log(msg);
   console.log(match[1]);
-  const matchArray = match[1].split(' '); // split string into array by spaces
+  const matchArray = match[1].split(" "); // split string into array by spaces
   console.log(matchArray);
 
   // const finalString = newArray.join(''); // join array into string no spaces
@@ -200,8 +217,8 @@ bot.onText(/\/dnd (.+)/, function(msg, match){
 
   const chatId = msg.chat.id;
   const dndQuery = matchArray[0];
-  
-  if(dndQuery === 'class') {
+
+  if (dndQuery === "class") {
     const chosenClass = matchArray[1];
     const dndQueryProperty = matchArray[2];
     axios
@@ -209,15 +226,15 @@ bot.onText(/\/dnd (.+)/, function(msg, match){
       .then(res => {
         // console.log(res.data.results);
         const finalClass = res.data.results.filter(dndclass => {
-          if(dndclass.name.toLowerCase() === chosenClass) {
+          if (dndclass.name.toLowerCase() === chosenClass) {
             return true;
           } else {
             return false;
           }
-        })
+        });
         return finalClass[0];
       })
-      .then( finalClass => {
+      .then(finalClass => {
         console.log(finalClass);
         const finalQuery = finalClass[dndQueryProperty];
         console.log(finalQuery);
@@ -225,29 +242,33 @@ bot.onText(/\/dnd (.+)/, function(msg, match){
       })
       .catch(err => {
         console.log(err);
-      })
-  } else if(dndQuery === 'monster') {
+      });
+  } else if (dndQuery === "monster") {
     const chosenMonster = matchArray[1];
     const dndQueryProperty = matchArray[2];
     axios
       .get(`https://api.open5e.com/monsters/`)
       .then(res => {
         const finalMonster = res.data.results.filter(monster => {
-          if(monster.name.toLowerCase() === chosenMonster) {
+          if (monster.name.toLowerCase() === chosenMonster) {
             return true;
           } else {
             return false;
           }
-        })
+        });
         return finalMonster;
       })
-      .then( finalMonster => {
+      .then(finalMonster => {
         console.log(finalMonster);
         const finalQuery = finalMonster[0][dndQueryProperty];
         bot.sendMessage(chatId, finalQuery);
       })
-      .catch( err => {
+      .catch(err => {
         console.log(err);
-      })
+      });
   }
-})
+});
+
+setInterval(() => {
+  bot.sendMessage(chatId, "Impeach.");
+});
