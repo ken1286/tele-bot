@@ -7,7 +7,6 @@ const mtg = require("mtgsdk");
 const request = require("request");
 const axios = require("axios");
 const tweetData = require("./tweetData.js");
-// const steam = 'D1D682C581C091D5834EBEA30245480D';
 const droll = require("droll");
 
 const port = process.env.PORT || 8080;
@@ -269,6 +268,6 @@ bot.onText(/\/dnd (.+)/, function(msg, match) {
   }
 });
 
-setInterval(() => {
-  bot.sendMessage(-341485739, "Impeach.");
-}, 1000 * 60 * 60);
+// setInterval(() => {
+//   bot.sendMessage(-341485739, "Impeach.");
+// }, 1000 * 60 * 60);
