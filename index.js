@@ -13,11 +13,11 @@ const port = process.env.PORT || 8080;
 
 app.use(express.json());
 
-app.listen(port, function() {
+app.listen(port, function () {
   console.log("Our app is running on http://localhost:" + port);
 });
 
-bot.onText(/\/echo (.+)/, function(msg, match) {
+bot.onText(/\/echo (.+)/, function (msg, match) {
   console.log(msg);
   console.log(match);
   console.log(match[1]);
@@ -34,7 +34,7 @@ bot.onText(/\/echo (.+)/, function(msg, match) {
   }
 });
 
-bot.onText(/\/mtg (.+)/, function(msg, match) {
+bot.onText(/\/mtg (.+)/, function (msg, match) {
   console.log(msg);
   const chatId = msg.chat.id;
   const cardName = match[1];
@@ -74,19 +74,19 @@ bot.onText(/\/mtg (.+)/, function(msg, match) {
     });
 });
 
-bot.onText(/\/movie (.+)/, function(msg, match) {
+bot.onText(/\/movie (.+)/, function (msg, match) {
   const movie = match[1];
   const chatId = msg.chat.id;
   request(
     `http://www.omdbapi.com/?i=tt3896198&apikey=110b029a&t=${movie}`,
-    function(error, response, body) {
+    function (error, response, body) {
       console.log(body);
       if (!error && response.statusCode == 200) {
         bot
           .sendMessage(chatId, "_Looking for _" + movie + "...", {
             parse_mode: "Markdown"
           })
-          .then(function(msg) {
+          .then(function (msg) {
             const res = JSON.parse(body);
             console.log(res);
             // bot.sendMessage(chatId, 'Result: \nTitle ' + res.Title + '\nYear: ' + res.Year + '\nRated: ' + res.Rated + '\nReleased: ' + res.Released );
@@ -107,7 +107,7 @@ bot.onText(/\/movie (.+)/, function(msg, match) {
   );
 });
 
-bot.onText(/\/cat/, function(msg, match) {
+bot.onText(/\/cat/, function (msg, match) {
   const chatId = msg.chat.id;
 
   axios
@@ -120,7 +120,7 @@ bot.onText(/\/cat/, function(msg, match) {
     });
 });
 
-bot.onText(/\/trump/, function(msg, match) {
+bot.onText(/\/trump/, function (msg, match) {
   const chatId = msg.chat.id;
   console.log(tweetData[1]);
 
@@ -138,7 +138,7 @@ bot.onText(/\/trump/, function(msg, match) {
   //   })
 });
 
-bot.onText(/\/today/, function(msg, match) {
+bot.onText(/\/today/, function (msg, match) {
   const chatId = msg.chat.id;
 
   axios
@@ -180,7 +180,7 @@ bot.onText(/\/today/, function(msg, match) {
 //     })
 // })
 
-bot.onText(/\/roll (.+)/, function(msg, match) {
+bot.onText(/\/roll (.+)/, function (msg, match) {
   // console.log(msg)
   // console.log(match)
   console.log(msg);
@@ -197,15 +197,15 @@ bot.onText(/\/roll (.+)/, function(msg, match) {
   // console.log(rollDice);
   // const result = d20.roll(rollDice);
   // console.log(result);
-  const result = droll.roll(rollDice).toString();
+  const result = droll.roll(rollDice)
   console.log(result);
+  const final = result.toString()
   // console.log(`${user} rolled ${result.DrollResult.numDice} ${result.DrollResult.numSides}-sided dice with a modifier of +${result.DrollResult.modifier}. They rolled ${result.DrollResult.toString()}`)
   // const resultString = result.DrollResult.toString();
-  console.log(result);
-  bot.sendMessage(chatId, result);
+  bot.sendMessage(chatId, final);
 });
 
-bot.onText(/\/dnd (.+)/, function(msg, match) {
+bot.onText(/\/dnd (.+)/, function (msg, match) {
   console.log(msg);
   console.log(match[1]);
   const matchArray = match[1].split(" "); // split string into array by spaces
