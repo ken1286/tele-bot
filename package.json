@@ -6,7 +6,7 @@
   "dependencies": {
     "axios": "^0.24.0",
     "droll": "^0.2.1",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "mtgsdk": "^0.4.3",
     "node-telegram-bot-api": "^0.30.0",
     "request": "^2.88.0"
